@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: "摄图摩登小方体";
+  src: url("摄图摩登小方体.woff2") format("woff2"),
+       url("摄图摩登小方体.woff") format("woff"),
+       url("摄图摩登小方体.ttf") format("truetype"),
+       url("摄图摩登小方体.eot") format("embedded-opentype"),
+       url("摄图摩登小方体.svg") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
