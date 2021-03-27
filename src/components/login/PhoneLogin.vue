@@ -27,7 +27,7 @@
             phone: '',
             checkCode: '',
           },
-          disabled:false,
+          disabled: false,
           time:60,
           btntxt:"发送验证码",
         };
@@ -46,6 +46,10 @@
         },
         // 获取验证码
         sendcode() {
+          if (!/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/.test(this.loginUser.phone)) {
+            this.$message.error("请输入正确的手机号")
+            return
+          }
           this.$http.get("http://localhost:9999/siji/user/phoneCode?phone=" + this.loginUser.phone).then(resp =>{
             console.log(resp.data)
           })

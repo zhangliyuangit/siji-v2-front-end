@@ -50,6 +50,9 @@
           </el-form-item>
           <el-form-item label="题图地址" >
             <el-input v-model="article.thematic" placeholder="题图地址暂时只支持网络url形式" style="width: 80%"></el-input>
+            <el-tooltip content="这里暂时只支持图片的url地址，后续可能要优化成上传图片的形式" placement="bottom" effect="light" style="margin-left: 10px">
+              <i class="icon iconfont icon-xinxi2x"></i>
+            </el-tooltip>
           </el-form-item>
 
           <el-form-item label="类型">

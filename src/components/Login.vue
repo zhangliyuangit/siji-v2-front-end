@@ -1,5 +1,5 @@
 <template xmlns:el-col="http://www.w3.org/1999/html">
-    <div>
+    <div id="login">
 
       <el-row>
         <el-col :span="6" :offset="9">
@@ -56,5 +56,10 @@
   .title-2{
     margin-top: 10px;
     font-size: 13px;
+  }
+  #login{
+    height: 100%;
+    background-image: url("../assets/img/默认文件1616821660205.png");
+    background-repeat: repeat;
   }
 </style>

@@ -2,6 +2,14 @@
   <div id="app" v-loading="loading">
     <el-row>
       <!-- TODO 这里应该左边展示点赞按钮，不应该偏移4个-->
+
+<!--      <el-col :span="4">-->
+<!--        <div>-->
+<!--          <el-button style="position: fixed;align-items: center" round><i class="icon iconfont icon-dianzan2x"></i></el-button>-->
+<!--          <div >赞同</div>-->
+<!--        </div>-->
+<!--      </el-col>-->
+
       <el-col :span="16" :offset="4">
 
         <el-row>
