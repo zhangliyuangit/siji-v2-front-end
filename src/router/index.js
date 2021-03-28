@@ -11,6 +11,8 @@ import ArticleDetails from "../components/ArticleDetails";
 import ArticleSub from "../components/ArticleSub";
 import ArticleAttention from "../components/ArticleAttention";
 import WriteArticle from "../components/WriteArticle";
+import UserDetails from "../components/UserDetails";
+import Setting from "../components/Setting";
 
 Vue.use(Router)
 
@@ -77,8 +79,23 @@ export default new Router({
           path: '/articleDetails/:id',
           component: ArticleDetails,
           meta: {
-            requireAuth:true,
+            requireAuth: true,
           },
+        },
+        {
+          path: '/userDetails/:id',
+          component: UserDetails,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: '/setting',
+          name: 'setting',
+          component: Setting,
+          meta: {
+            requireAuth: true
+          }
         }
       ]
     },

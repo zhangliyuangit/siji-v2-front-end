@@ -4,8 +4,8 @@
       <!-- TODO 这里应该左边展示点赞按钮，不应该偏移4个-->
 
 <!--      <el-col :span="4">-->
-<!--        <div>-->
-<!--          <el-button style="position: fixed;align-items: center" round><i class="icon iconfont icon-dianzan2x"></i></el-button>-->
+<!--        <div style="position: absolute;right: 20px;">-->
+<!--          <el-button round style=""><i class="icon iconfont icon-dianzan2x"></i></el-button>-->
 <!--          <div >赞同</div>-->
 <!--        </div>-->
 <!--      </el-col>-->
@@ -31,7 +31,7 @@
                             @click="toAttention"
                            :type="article.isAttention ? 'primary' : ''"
                            v-text="article.isAttention ? '取消关注' : '关注'"
-                           :class="article.isAttention ? 'like' : 'noLike'"
+                           :class="article.isAttention ? 'attention' : 'noAttention'"
                 >关注</el-button>
               </span>
 
@@ -83,6 +83,19 @@
                   <el-divider></el-divider>
                 </div>
               </el-card>
+
+              <!-- TODO 下边栏  暂时失败 -->
+<!--              <el-row>-->
+<!--                <el-col>-->
+<!--                  <div style="height: 50px;width: calc(100%);-->
+<!--                  background-color: white;-->
+<!--                  bottom: 0px;-->
+<!--                  position: fixed;-->
+<!--                  z-index:999">-->
+<!--                    <el-button style="margin: 10%">赞同</el-button>-->
+<!--                  </div>-->
+<!--                </el-col>-->
+<!--              </el-row>-->
             </div>
           </el-col>
         </el-row>
@@ -188,18 +201,18 @@
   }
 
   /**关注按钮的颜色*/
-  .like{
+  .attention{
     color: #fcfcfc;
     border: 1px solid #0066FF
   }
-  .noLike{
+  .noAttention{
     color: #0066FF;
   }
 
 
 
   #app{
-    font-family: 摄图摩登小方体;
+    font-family: pingfang-x;
   }
 
 

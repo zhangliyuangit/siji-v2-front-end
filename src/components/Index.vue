@@ -111,10 +111,13 @@
         if (command === 'logout') {
           this.logout()
         } else if (command === 'write') {
-          // TODO 这里应该点击之后显示一个新的页面
-          // this.$router.push("/writeArtilce")
           const { href } = this.$router.resolve({
             name: "writeArticle",
+          });
+          window.open(href, '_blank');
+        } else if (command === 'setting') {
+          const { href } = this.$router.resolve({
+            name: "setting",
           });
           window.open(href, '_blank');
         }
