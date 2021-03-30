@@ -3,14 +3,28 @@
     <el-row>
       <!-- TODO 这里应该左边展示点赞按钮，不应该偏移4个-->
 
-<!--      <el-col :span="4">-->
-<!--        <div style="position: absolute;right: 20px;">-->
-<!--          <el-button round style=""><i class="icon iconfont icon-dianzan2x"></i></el-button>-->
-<!--          <div >赞同</div>-->
-<!--        </div>-->
-<!--      </el-col>-->
+      <el-col :span="4">
+        <div style="width: 100%;height: 200px">
+          <div id="button-list">
+            <!-- 点赞按钮 -->
+            <el-button circle
+                       size="medium"
+                      :class="article.isLike ? 'like' : 'noLike'"
+                      @click="changeLike">
+              <i class="icon iconfont icon-dianzan2x" style="font-size: 20px;"></i>
+            </el-button>
+            <br>
+            <br>
 
-      <el-col :span="16" :offset="4">
+            <!-- 评论按钮 -->
+            <el-button circle size="medium" class="comment-btn">
+              <i class="icon iconfont icon-fankui2x" style="font-size: 20px;"></i>
+            </el-button>
+          </div>
+        </div>
+      </el-col>
+
+      <el-col :span="16" >
 
         <el-row>
           <!-- 文章内容 -->
@@ -115,6 +129,8 @@
           article: {
             // 是否关注，默认位false
             isAttention: false,
+            // 是否点赞
+            isLike: false,
             user:{
               header_pic: ''
             },
@@ -127,7 +143,6 @@
         selectByTpye(type) {
           alert(type)
         },
-        // TODO 这块最好改成把父组件的登录表单弹出来
         // 关注事件
         toAttention(){
           var currentUserId = jwtDecode(window.localStorage.getItem("userToken")).id
@@ -147,6 +162,36 @@
           }
           // 切换按钮状态
           this.article.isAttention = !this.article.isAttention
+        },
+        // 切换点赞状态
+        changeLike() {
+          if (this.article.isLike) {
+            // 是点赞状态，取消点赞
+            this.$http.delete("http://localhost:9999/siji/like/noLike/" + this.article.id + "/" + jwtDecode(window.localStorage.getItem("userToken")).id, {
+              headers: {
+                token: window.localStorage.getItem("userToken")
+              }
+            }).then(resp => {
+              if (resp.status === 200) {
+                this.article.isLike = false
+              }else {
+                this.$message.error(resp.data.message)
+              }
+            })
+          } else {
+            // 没有点赞，去点赞
+            this.$http.put("http://localhost:9999/siji/like/like/" + this.article.id + "/" + jwtDecode(window.localStorage.getItem("userToken")).id, null, {
+              headers: {
+                token: window.localStorage.getItem("userToken")
+              }
+            }).then(resp => {
+              if (resp.status === 200) {
+                this.article.isLike = true
+              } else {
+                this.$message.error(resp.data.message)
+              }
+            })
+          }
         }
       },
       created() {
@@ -208,11 +253,30 @@
   .noAttention{
     color: #0066FF;
   }
+  .like{
+    background-color: #0066FF;
+    color: #fcfcfc;
+  }
+  .noLike{
+    background-color: #E5EFFF;
+    color: #0066FF;
+  }
+  .comment-btn{
+    background-color: #E5EFFF;
+    color: #0066FF;
+  }
 
 
 
   #app{
     font-family: pingfang-x;
+  }
+
+  #button-list{
+    top: 200px;
+    z-index: 99999;
+    position: fixed;
+    left: 18%;
   }
 
 
