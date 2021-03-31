@@ -17,8 +17,8 @@
             <br>
 
             <!-- 评论按钮 -->
-            <el-button circle size="medium" class="comment-btn">
-              <i class="icon iconfont icon-fankui2x" style="font-size: 20px;"></i>
+            <el-button circle size="medium" class="comment-btn" @click="toComment">
+                <i class="icon iconfont icon-fankui2x" style="font-size: 20px;"></i>
             </el-button>
           </div>
         </div>
@@ -67,7 +67,15 @@
                <el-tag v-for="(type, index) in article.types" :key="index" class="article-type" @click="selectByTpye(type)">{{ type }}</el-tag>
               </span>
 
-              <el-card shadow="never" style="margin-top: 20px">
+              <el-card shadow="never" style="margin-top: 20px" id="comment-list">
+
+                <el-input style="margin-bottom: 20px;width: 80%"
+                          placeholder="请输入评论内容"
+                          id="comment-input"
+                          v-model="comment"></el-input>
+                <el-button style="width: 15%;margin-left: 2%;background-color: #E5EFFF;color: #0066FF"
+                            :disabled="comment == ''"
+                            @click="addComment">发布</el-button>
 
                 <div v-if="article.comments === undefined || article.comments.length === 0">
                   <span>暂无评论...</span>
@@ -97,19 +105,6 @@
                   <el-divider></el-divider>
                 </div>
               </el-card>
-
-              <!-- TODO 下边栏  暂时失败 -->
-<!--              <el-row>-->
-<!--                <el-col>-->
-<!--                  <div style="height: 50px;width: calc(100%);-->
-<!--                  background-color: white;-->
-<!--                  bottom: 0px;-->
-<!--                  position: fixed;-->
-<!--                  z-index:999">-->
-<!--                    <el-button style="margin: 10%">赞同</el-button>-->
-<!--                  </div>-->
-<!--                </el-col>-->
-<!--              </el-row>-->
             </div>
           </el-col>
         </el-row>
@@ -135,8 +130,12 @@
               header_pic: ''
             },
             // 页面加载
-            loading: false
-          }
+            loading: false,
+            comments: [
+            ]
+          },
+          // 评论内容
+          comment: ''
         }
       },methods:{
         // 查看对应类型的所有文章
@@ -192,6 +191,29 @@
               }
             })
           }
+        },
+        // 跳转到页面底部的comment部分
+        toComment() {
+          const returnEle = document.querySelector("#comment-list");
+          if (!!returnEle) {
+            returnEle.scrollIntoView(true); // true 是默认的
+          }
+        },
+        // 添加评论
+        addComment() {
+          const comment = {
+            user_id: jwtDecode(window.localStorage.getItem("userToken")).id,
+            article_id: this.article.id,
+            context: this.comment
+          }
+          this.$http.post("http://localhost:9999/siji/comment/addAndGet", comment , {
+            headers: {
+              token: window.localStorage.getItem("userToken")
+            }
+          }).then(resp => {
+            this.article.comments = resp.data.data
+            this.comment = ''
+          })
         }
       },
       created() {
@@ -265,7 +287,6 @@
     background-color: #E5EFFF;
     color: #0066FF;
   }
-
 
 
   #app{
