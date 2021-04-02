@@ -1,11 +1,10 @@
 <template>
   <div id="app" v-loading="loading">
     <el-row>
-      <!-- TODO 这里应该左边展示点赞按钮，不应该偏移4个-->
 
       <el-col :span="4">
         <div style="width: 100%;height: 200px">
-          <div id="button-list">
+          <div id="button-list" v-if="!showCollection">
             <!-- 点赞按钮 -->
             <el-button circle
                        size="medium"
@@ -19,6 +18,13 @@
             <!-- 评论按钮 -->
             <el-button circle size="medium" class="comment-btn" @click="toComment">
                 <i class="icon iconfont icon-fankui2x" style="font-size: 20px;"></i>
+            </el-button>
+            <br>
+            <br>
+
+            <!-- 收藏按钮 -->
+            <el-button circle size="medium" class="collect-btn" @click="showCollectionForm">
+              <i class="icon iconfont icon-xing2x" style="font-size: 20px"></i>
             </el-button>
           </div>
         </div>
@@ -108,6 +114,41 @@
             </div>
           </el-col>
         </el-row>
+
+        <!-- 收藏弹窗 -->
+        <el-dialog
+          title="添加收藏"
+          :visible.sync="showCollection"
+          width="30%">
+          <div v-for="(collection, index) in favoritesList.data" style="height: 50px" :key="index">
+            <el-row>
+              <el-col :span="18" style="font-family: pingfang-x;font-size: 18px;color: #0c0c0c;line-height: 50px;font-weight: 500">{{collection.name}}</el-col>
+              <el-col :span="6">
+                <div style="width: 100%;height: 100%;vertical-align: middle">
+                  <el-button v-text="collection.isCollect ? '已收藏' : '收藏'"
+                             :class="collection.isCollect ? 'collect' : 'noCollect'"
+                             @click="changeCollect(collection.id, collection.isCollect ,index)"></el-button>
+                </div>
+              </el-col>
+            </el-row>
+          </div>
+          <div style="width: 100%;text-align: center">
+            <el-button style="background-color: #5c99f5;color: white;font-family: pingfang-x;font-weight: 500;margin-top: 20px;width: 100%"
+            @click="showCreateCollection = true">创建收藏夹</el-button>
+          </div>
+
+
+          <el-dialog title="创建收藏夹" :visible.sync="showCreateCollection" append-to-body width="30%">
+            <div style="width: 100%;text-align: center">
+              <el-input placeholder="请输入收藏夹名称" style="font-family: pingfang-x" v-model="collectionName" clearable></el-input>
+              <el-button style="background-color: #5c99f5;color: white;font-family: pingfang-x;font-weight: 500;margin-top: 20px;width: 100%"
+                         @click="createFavorite"
+                         :disabled="collectionName == ''">确认创建</el-button>
+            </div>
+          </el-dialog>
+        </el-dialog>
+
+
         <!-- 回到顶部按钮 -->
         <el-backtop :bottom="100"></el-backtop>
       </el-col>
@@ -121,6 +162,8 @@
         name: "ArticleDetails",
       data(){
         return{
+          favoritesList: {
+          },
           article: {
             // 是否关注，默认位false
             isAttention: false,
@@ -135,7 +178,12 @@
             ]
           },
           // 评论内容
-          comment: ''
+          comment: '',
+          // 是否展示收藏弹窗
+          showCollection: false,
+          showCreateCollection: false,
+          // 收藏夹名称
+          collectionName: '',
         }
       },methods:{
         // 查看对应类型的所有文章
@@ -214,6 +262,61 @@
             this.article.comments = resp.data.data
             this.comment = ''
           })
+        },
+        // 创建收藏夹
+        createFavorite() {
+          const collection = {
+            user_id: jwtDecode(window.localStorage.getItem("userToken")).id,
+            name: this.collectionName
+          }
+          this.$http.post("http://localhost:9999/siji/collection/create/" + this.article.id, collection, {
+            headers: {
+              token: window.localStorage.getItem("userToken")
+            }
+          }).then(resp => {
+            this.favoritesList = resp.data
+            this.showCreateCollection = false
+            this.collectionName = ''
+          })
+        },
+        // 展示弹窗，并且查询数据
+        showCollectionForm() {
+          const _this = this
+          this.showCollection = true
+          // TODO
+          this.$http.get("http://localhost:9999/siji/collection/findCollection/" + jwtDecode(window.localStorage.getItem("userToken")).id + "/" + this.article.id, {
+            headers: {
+              token: window.localStorage.getItem("userToken")
+            }
+          }).then(resp => {
+            this.favoritesList = resp.data
+          })
+        },
+        // 切换收藏状态
+        changeCollect(collectId, isCollect, index) {
+          if (isCollect) {
+            // 表示已经收藏过了，点击是取消收藏
+            this.$http.delete("http://localhost:9999/siji/collection/cancelCollect/" + collectId + "/" + this.article.id, {
+              headers: {
+                token: window.localStorage.getItem("userToken")
+              }
+            })
+            // 改变按钮的状态
+            this.favoritesList.data[index].isCollect = false
+          } else {
+            // 去收藏
+            const collectionContent = {
+              collection_id: collectId,
+              article_id: this.article.id
+            }
+            this.$http.post("http://localhost:9999/siji/collection/toCollect", collectionContent, {
+              headers: {
+                token: window.localStorage.getItem("userToken")
+              }
+            })
+            // 改变按钮的状态
+            this.favoritesList.data[index].isCollect = true
+          }
         }
       },
       created() {
@@ -270,10 +373,16 @@
   /**关注按钮的颜色*/
   .attention{
     color: #fcfcfc;
-    border: 1px solid #0066FF
+    border: 1px solid #0066FF;
+    font-size: 15px;
+    font-family: pingfang-x;
+    font-weight: 800;
   }
   .noAttention{
     color: #0066FF;
+    font-size: 15px;
+    font-family: pingfang-x;
+    font-weight: 800;
   }
   .like{
     background-color: #0066FF;
@@ -285,6 +394,23 @@
   }
   .comment-btn{
     background-color: #E5EFFF;
+    color: #0066FF;
+  }
+  .collect-btn{
+    background-color: #E5EFFF;
+    color: #0066FF;
+  }
+  .collect{
+    vertical-align: middle;
+    width: 100%;
+    background-color: rgb(133,144,166);
+    color: white;
+    font-family: pingfang-x;
+  }
+  .noCollect{
+    vertical-align: middle;
+    width: 100%;
+    font-family: pingfang-x;
     color: #0066FF;
   }
 

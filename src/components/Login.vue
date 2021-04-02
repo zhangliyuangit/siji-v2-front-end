@@ -23,7 +23,7 @@
 
       <el-row>
         <el-col :span="10" :offset="7">
-          <div style="text-align: center;margin-top: 16%">power by liyuan</div>
+          <div style="text-align: center;margin-top: 16%;margin-bottom: 50px">power by liyuan</div>
         </el-col>
       </el-row>
     </div>
