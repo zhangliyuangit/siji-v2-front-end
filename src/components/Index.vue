@@ -21,11 +21,13 @@
             <el-button type="primary" round id="searchBtn" plain @click="dialogVisible = true">提问</el-button>
           </el-menu-item>
 
-          <!-- 未登录状态显示登录，登录状态显示头像 -->
+
           <el-menu-item id="no-login-item">
             <span>
-              <el-dropdown @command="handleCommand" v-if="user.header_pic != ''">
-                <el-avatar v-if="user.header_pic != ''" :src="user.header_pic"></el-avatar>
+              <el-dropdown @command="handleCommand" v-if="user.header_pic != ''" @error="errorHandler">
+                <el-avatar v-if="user.header_pic != ''" :src="user.header_pic">
+                  <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"/>
+                </el-avatar>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item command="myHome"><i class="icon iconfont icon-diannao2x"></i>我的主页</el-dropdown-item>
                   <el-dropdown-item command="write"><i class="icon iconfont icon-bianji2x"></i>写文章</el-dropdown-item>
@@ -132,6 +134,9 @@
       // 切换验证码
       changeCode() {
         this.captchaSrc = "http://localhost:9999/siji/captcha/getCode?time=" + new Date()
+      },
+      errorHandler() {
+        return true
       }
     },
     mounted(){

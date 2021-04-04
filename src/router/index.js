@@ -13,6 +13,9 @@ import ArticleAttention from "../components/ArticleAttention";
 import WriteArticle from "../components/WriteArticle";
 import UserDetails from "../components/UserDetails";
 import Setting from "../components/Setting";
+import UpdateBasic from "../components/setting/UpdateBasic";
+import UpdateAvatar from "../components/setting/UpdateAvatar";
+import UpdatePassword from "../components/setting/UpdatePassword";
 
 Vue.use(Router)
 
@@ -93,9 +96,33 @@ export default new Router({
           path: '/setting',
           name: 'setting',
           component: Setting,
+          redirect: '/updateBasic',
           meta: {
             requireAuth: true
-          }
+          },
+          children: [
+            {
+              path: '/updateBasic',
+              component: UpdateBasic,
+              meta: {
+                requireAuth: true
+              },
+            },
+            {
+              path: '/updateAvatar',
+              component: UpdateAvatar,
+              meta: {
+                requireAuth: true
+              },
+            },
+            {
+              path: '/updatePassword',
+              component: UpdatePassword,
+              meta: {
+                requireAuth: true
+              },
+            }
+          ]
         }
       ]
     },
