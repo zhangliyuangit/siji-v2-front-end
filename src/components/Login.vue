@@ -23,7 +23,7 @@
 
       <el-row>
         <el-col :span="10" :offset="7">
-          <div style="text-align: center;margin-top: 16%;margin-bottom: 50px">power by liyuan</div>
+          <div style="text-align: center;margin-top: 16%;margin-bottom: 50px">power by liyuan.zhang</div>
         </el-col>
       </el-row>
     </div>
@@ -41,6 +41,19 @@
         handleClick(tab, event) {
           this.$router.push(tab.name)
         }
+      },
+      created() {
+          console.log(
+            "岁月静好是片刻,\n" +
+            "一地鸡毛是日常,\n" +
+            "即使世界偶尔薄凉,\n" +
+            "内心也要繁花似锦,\n" +
+            "浅浅喜,静静爱,\n" +
+            "深深懂得淡淡释怀,\n" +
+            "望远处的是风景,\n" +
+            "看近处的才是人生,\n" +
+            "唯愿此生岁月无恙,\n" +
+            "只言温暖不与悲伤.\n")
       }
     }
 </script>
