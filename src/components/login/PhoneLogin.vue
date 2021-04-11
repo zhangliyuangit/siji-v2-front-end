@@ -12,7 +12,7 @@
         </el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')" style="width: 100%;margin-top: 10px">登录/注册</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm')" style="width: 100%;margin-top: 10px" :disabled="loginUser.phone === '' || loginUser.checkCode === ''">登录/注册</el-button>
       </el-form-item>
     </el-form>
   </div>

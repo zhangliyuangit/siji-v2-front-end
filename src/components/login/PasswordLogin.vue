@@ -10,7 +10,7 @@
 
       <el-form-item prop="captchaCode">
         <el-input placeholder="请输入验证码" v-model="loginUser.captchaCode" style="width: 60%" clearable prefix-icon="icon iconfont icon-pingji2x"></el-input>
-        <img :src="captchaSrc" @click="changeCode" style="margin-left: 20px;cursor: pointer" title="点击切换验证码">
+        <img :src="captchaSrc" @click="changeCode" style="margin-left: 8%;cursor: pointer;width: 30%" title="点击切换验证码">
       </el-form-item>
       <el-button type="primary" style="width: 100%" @click="login('passwordForm')">登录</el-button>
 

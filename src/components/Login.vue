@@ -2,7 +2,7 @@
     <div id="login">
 
       <el-row>
-        <el-col :span="6" :offset="9">
+        <el-col :xl="{span:6,offset:9}" :xs="{span:24}">
           <div style="width: 100%;margin-top: 30px;text-align: center">
             <div class="title">肆记</div>
             <span class="title-2">记录您的四季</span>
@@ -10,7 +10,7 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="6" :offset="9">
+        <el-col :xl="{span:6,offset:9}" :xs="{span:24}" :lg="{span:6,offset:9}">
             <el-card style="height: 330px;margin-top: 10%">
               <el-tabs v-model="activeName" @tab-click="handleClick">
                 <el-tab-pane label="免密码登录" name="/phone"></el-tab-pane>
@@ -23,18 +23,29 @@
 
       <el-row>
         <el-col :span="10" :offset="7">
-          <div style="text-align: center;margin-top: 16%;margin-bottom: 50px">power by liyuan.zhang</div>
+          <div style="text-align: center;margin-top: 16%;margin-bottom: 50px">power by
+            <el-popover
+              placement="top-start"
+              title="添加作者QQ"
+              width="200"
+              trigger="hover">
+              <span slot="reference" id="name">liyuan.zhang</span>
+              <el-image :src="img"></el-image>
+            </el-popover>
+          </div>
         </el-col>
       </el-row>
     </div>
 </template>
 
 <script>
+  import img from '../assets/img/qq.jpg';
     export default {
         name: "Login",
       data() {
           return {
-            activeName: this.$route.path
+            activeName: this.$route.path,
+            img
           }
       },
       methods: {
@@ -60,11 +71,12 @@
 
 <style scoped>
   .title{
-    font-family: DottedSongtiDiamondRegular;
+    /*font-family: DottedSongtiDiamondRegular;*/
     font-size: 80px;
     text-align: center;
-    color: #5c99f5;
+    color: #0066ff;
     padding-top: 20px;
+    font-family: 摄图摩登小方体;
   }
   .title-2{
     margin-top: 10px;
@@ -74,5 +86,8 @@
     height: 100%;
     background-image: url("../assets/img/默认文件1616821660205.png");
     background-repeat: repeat;
+  }
+  #name{
+    cursor: pointer
   }
 </style>

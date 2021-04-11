@@ -12,20 +12,26 @@
                       @click="changeLike">
               <i class="icon iconfont icon-dianzan2x" style="font-size: 20px;"></i>
             </el-button>
-            <br>
+
+            <div style="font-family: pingfang-x;margin-top: 5px;color: #0066ff;font-size: 15px;width: 100%;text-align: center"
+                 v-text="article.isLike ? '已点赞' + article.likeNum : '去点赞' + article.likeNum"></div>
             <br>
 
             <!-- 评论按钮 -->
             <el-button circle size="medium" class="comment-btn" @click="toComment">
                 <i class="icon iconfont icon-fankui2x" style="font-size: 20px;"></i>
             </el-button>
-            <br>
+            <div style="font-family: pingfang-x;margin-top: 5px;color: #0066ff;font-size: 15px;width: 100%;text-align: center"
+                 >评&nbsp;论</div>
             <br>
 
             <!-- 收藏按钮 -->
             <el-button circle size="medium" class="collect-btn" @click="showCollectionForm">
               <i class="icon iconfont icon-xing2x" style="font-size: 20px"></i>
             </el-button>
+            <div style="font-family: pingfang-x;margin-top: 5px;color: #0066ff;font-size: 15px;width: 100%;text-align: center"
+                 >收&nbsp;藏</div>
+            <br>
           </div>
         </div>
       </el-col>
@@ -220,6 +226,7 @@
               }
             }).then(resp => {
               if (resp.status === 200) {
+                this.article.likeNum = this.article.likeNum - 1
                 this.article.isLike = false
               }else {
                 this.$message.error(resp.data.message)
@@ -233,6 +240,7 @@
               }
             }).then(resp => {
               if (resp.status === 200) {
+                this.article.likeNum = this.article.likeNum + 1
                 this.article.isLike = true
               } else {
                 this.$message.error(resp.data.message)
