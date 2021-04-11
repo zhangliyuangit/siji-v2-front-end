@@ -30,6 +30,39 @@
           <el-button class="update-btn" @click="updateBrief">修改</el-button>
         </el-col>
       </el-row>
+
+      <el-row style="margin-top: 10px">
+        <el-col :span="5">职  务</el-col>
+        <el-col :span="19">
+          <el-input style="width: 80%;border: 0px"
+                    v-model="user.position"
+                    maxlength="10"
+                    show-word-limit></el-input>
+          <el-button class="update-btn" @click="updatePosition">修改</el-button>
+        </el-col>
+      </el-row>
+
+      <el-row style="margin-top: 10px">
+        <el-col :span="5">公  司</el-col>
+        <el-col :span="19">
+          <el-input style="width: 80%;border: 0px"
+                    v-model="user.company"
+                    maxlength="10"
+                    show-word-limit></el-input>
+          <el-button class="update-btn" @click="updateCompany">修改</el-button>
+        </el-col>
+      </el-row>
+
+      <el-row style="margin-top: 10px">
+        <el-col :span="5">个人主页</el-col>
+        <el-col :span="19">
+          <el-input style="width: 80%;border: 0px"
+                    v-model="user.home_page"
+                    maxlength="50"
+                    show-word-limit></el-input>
+          <el-button class="update-btn" @click="updateHomePage">修改</el-button>
+        </el-col>
+      </el-row>
     </div>
 </template>
 
@@ -43,7 +76,10 @@
             user: {
               name: '',
               age: 0,
-              brief: ''
+              brief: '',
+              position: '',
+              company: '',
+              home_page: ''
             },
           }
       },
@@ -51,6 +87,10 @@
         this.user.name = jwtDecode(window.localStorage.getItem("userToken")).name
         this.user.brief = jwtDecode(window.localStorage.getItem("userToken")).brief
         this.user.age = jwtDecode(window.localStorage.getItem("userToken")).age
+        this.user.position = jwtDecode(window.localStorage.getItem("userToken")).position
+        this.user.company = jwtDecode(window.localStorage.getItem("userToken")).company
+        this.user.home_page = jwtDecode(window.localStorage.getItem("userToken")).home_page
+
       },
       methods: {
           // 更新用户名
@@ -72,6 +112,27 @@
           const userInfo = {
             id: jwtDecode(window.localStorage.getItem("userToken")).id,
             brief: this.user.brief
+          }
+          this.updateUserInfo(userInfo)
+        },
+        updatePosition() {
+          const userInfo = {
+            id: jwtDecode(window.localStorage.getItem("userToken")).id,
+            position: this.user.position
+          }
+          this.updateUserInfo(userInfo)
+        },
+        updateCompany() {
+          const userInfo = {
+            id: jwtDecode(window.localStorage.getItem("userToken")).id,
+            company: this.user.company
+          }
+          this.updateUserInfo(userInfo)
+        },
+        updateHomePage() {
+          const userInfo = {
+            id: jwtDecode(window.localStorage.getItem("userToken")).id,
+            home_page: this.user.home_page
           }
           this.updateUserInfo(userInfo)
         },
