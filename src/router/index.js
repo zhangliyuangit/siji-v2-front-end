@@ -16,6 +16,7 @@ import Setting from "../components/Setting";
 import UpdateBasic from "../components/setting/UpdateBasic";
 import UpdateAvatar from "../components/setting/UpdateAvatar";
 import UpdatePassword from "../components/setting/UpdatePassword";
+import ArticlesByType from "../components/ArticlesByType";
 
 Vue.use(Router)
 
@@ -123,6 +124,14 @@ export default new Router({
               },
             }
           ]
+        },
+        {
+          path: '/articleByType/:type',
+          name: 'articleByType',
+          component: ArticlesByType,
+          meta: {
+            requireAuth: true
+          }
         }
       ]
     },

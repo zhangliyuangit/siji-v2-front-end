@@ -186,6 +186,7 @@
                 message: resp.data.message,
                 type: 'success'
               });
+              this.$router.push("/articleDetails/" + resp.data.data)
             }else {
               this.$message.error(resp.data.message);
             }

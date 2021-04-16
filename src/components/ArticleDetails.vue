@@ -3,7 +3,7 @@
     <el-row>
 
       <el-col :span="4">
-        <div style="width: 100%;height: 200px">
+        <div style="width: 100%;height: 200px" v-if="article.user.id != currentUserId">
           <div id="button-list" v-if="!showCollection">
             <!-- 点赞按钮 -->
             <el-button circle
@@ -36,7 +36,7 @@
         </div>
       </el-col>
 
-      <el-col :span="16" >
+      <el-col :span="16" :offset="currentUserId == article.user.id ? 4 : 0">
 
         <el-row>
           <!-- 文章内容 -->
@@ -52,13 +52,22 @@
               <el-avatar v-if="article.user.header_pic != null" :src="article.user.header_pic" size="large" class="header-pic"></el-avatar>
               <el-avatar v-if="article.user.header_pic == null" class="header-pic">{{article.user.name}}</el-avatar>
               <span class="name" style="margin-left: 20px">{{article.user.name}}</span>
-              <span style="float: right">
+              <span style="float: right" v-if="currentUserId != article.user.id">
                 <el-button round
                             @click="toAttention"
                            :type="article.isAttention ? 'primary' : ''"
                            v-text="article.isAttention ? '取消关注' : '关注'"
                            :class="article.isAttention ? 'attention' : 'noAttention'"
                 >关注</el-button>
+              </span>
+              <span style="float: right" v-if="article.user.id == currentUserId">
+                <el-popconfirm
+                  title="您确定要删除文章吗？"
+                  @confirm="deleteArticle"
+                >
+                  <el-link slot="reference">删除文章</el-link>
+                </el-popconfirm>
+
               </span>
 
               <!-- 文章信息 -->
@@ -111,7 +120,19 @@
 
                   <!-- 评论内容 -->
                   <el-row style="margin: 10px">
-                    <el-row>{{comment.context}}</el-row>
+                    <el-col :span="22">{{comment.context}}</el-col>
+                    <el-col :span="2" v-if="currentUserId == comment.user_id">
+                      <el-popconfirm
+                        confirm-button-text='删除'
+                        cancel-button-text='取消'
+                        icon="el-icon-info"
+                        icon-color="red"
+                        title="您确定要删除吗？"
+                        @confirm="deleteComment(comment.id)"
+                      >
+                        <el-link style="float: right" type="primary" slot="reference">删除</el-link>
+                      </el-popconfirm>
+                    </el-col>
                   </el-row>
 
                   <el-divider></el-divider>
@@ -190,11 +211,13 @@
           showCreateCollection: false,
           // 收藏夹名称
           collectionName: '',
+          // 当前登录用户id
+          currentUserId: 0
         }
       },methods:{
         // 查看对应类型的所有文章
         selectByTpye(type) {
-          alert(type)
+          this.$router.push("/articleByType/" + type)
         },
         // 关注事件
         toAttention(){
@@ -291,7 +314,6 @@
         showCollectionForm() {
           const _this = this
           this.showCollection = true
-          // TODO
           this.$http.get("http://localhost:9999/siji/collection/findCollection/" + jwtDecode(window.localStorage.getItem("userToken")).id + "/" + this.article.id, {
             headers: {
               token: window.localStorage.getItem("userToken")
@@ -325,9 +347,41 @@
             // 改变按钮的状态
             this.favoritesList.data[index].isCollect = true
           }
+        },
+        // 删除文章
+        deleteArticle() {
+          this.$http.delete("http://localhost:9999/siji/article/deleteArticle/" + this.article.id, {
+            headers: {
+              token: window.localStorage.getItem("userToken")
+            }
+          }).then(resp => {
+            if (resp.data.code === 200) {
+              this.$message({
+                message: resp.data.message,
+                type: 'success'
+              });
+              // 跳转到首页
+              this.$router.push("/articleList")
+            } else {
+              this.$message.error(resp.data.message);
+            }
+          })
+        },
+        // 删除评论
+        deleteComment(commentId) {
+          this.$http.delete("http://localhost:9999/siji/comment/deleteComment/" + commentId + "/" + this.article.id, {
+            headers: {
+              token: window.localStorage.getItem("userToken")
+            }
+          }).then(resp => {
+            if (resp.data.code === 200) {
+              this.article.comments = resp.data.data
+            }
+          })
         }
       },
       created() {
+          this.currentUserId = jwtDecode(window.localStorage.getItem("userToken")).id
           this.loading = true
           var currentUserId = jwtDecode(window.localStorage.getItem("userToken")).id
         this.$http.get("http://localhost:9999/siji/article/" + this.$route.params.id + "?currentUserId=" + currentUserId, {

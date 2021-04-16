@@ -145,20 +145,7 @@
   .article-class{
     font-size: 14px;
   }
-  .like-btn{
-    font-weight: 600;
-    font-size: 13px;
-  }
-  .share{
-    font-size: 13px;
-    font-weight: 600;
-    margin-left: 20px;
-    color: #8590A6;
-    cursor: pointer;
-  }
-  .share:hover{
-    color: #0066FF;
-  }
+
 
   /*作者榜*/
   .text{
