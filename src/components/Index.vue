@@ -12,13 +12,13 @@
                  id="header">
           <el-menu-item style="font-weight: 800;color: #0066FF;font-size: 33px;margin-left: 8%;font-family: DottedSongtiDiamondRegular">肆记</el-menu-item>
           <el-menu-item index="/articleSub" style="margin-left: 20px" >首页</el-menu-item>
-          <el-menu-item index="/questionList">等你来答</el-menu-item>
+          <el-menu-item index="/download">下载</el-menu-item>
           <el-menu-item index="/about">关于作者</el-menu-item>
 
           <!-- 搜索框和提问按钮 -->
           <el-menu-item>
             <el-input style="margin-left: 30px" placeholder="请输入你要搜索的内容" id="search"><i slot="suffix" class="icon iconfont icon-sousuo2x" @click="doSearch" id="searchIcon"></i></el-input>
-            <el-button type="primary" round id="searchBtn" plain @click="dialogVisible = true">提问</el-button>
+<!--            <el-button type="primary" round id="searchBtn" plain @click="dialogVisible = true">提问</el-button>-->
           </el-menu-item>
 
 
@@ -58,19 +58,19 @@
 
 
     <!-- 问题弹框 -->
-    <el-dialog
-      title="请写下你的问题，五湖四海的朋友来帮你解答"
-      :visible.sync="dialogVisible"
-      width="30%"
-    >
-      <el-input placeholder="请写下你的问题" type="textarea" maxlength="300"
-                show-word-limit
-                v-model="question"
-      ></el-input>
-      <span slot="footer" class="dialog-footer">
-    <el-button type="primary" @click="addQuestion" :disabled="question === ''">发布问题</el-button>
-  </span>
-    </el-dialog>
+<!--    <el-dialog-->
+<!--      title="请写下你的问题，五湖四海的朋友来帮你解答"-->
+<!--      :visible.sync="dialogVisible"-->
+<!--      width="30%"-->
+<!--    >-->
+<!--      <el-input placeholder="请写下你的问题" type="textarea" maxlength="300"-->
+<!--                show-word-limit-->
+<!--                v-model="question"-->
+<!--      ></el-input>-->
+<!--      <span slot="footer" class="dialog-footer">-->
+<!--    <el-button type="primary" @click="addQuestion" :disabled="question === ''">发布问题</el-button>-->
+<!--  </span>-->
+<!--    </el-dialog>-->
   </div>
 </template>
 
@@ -81,7 +81,7 @@
     data() {
       return {
         activeIndex: this.$route.path,
-        dialogVisible: false,
+        // dialogVisible: false,
         question: '',
         // 用于提交表单
         loginUser: {

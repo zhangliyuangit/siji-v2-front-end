@@ -20,10 +20,41 @@
               </el-col>
 
               <el-col :span="4">
+                <div>
+                  <el-link :href="userInfo.home_page" style="margin-left: 10px">
+                    <i class="icon iconfont icon-hulianwang2x"></i>
+                  </el-link>
+                </div>
+
                 <el-button round style="margin-top: 30px"
                 v-text="userInfo.isAttention ? '取消关注' : '关注'"
                 :class="userInfo.isAttention ? 'attention' : 'noAttention'"
                 @click="toAttention"></el-button>
+              </el-col>
+            </el-row>
+
+            <el-row>
+              <el-col>
+                <div style="margin: 10px">Ta的文章</div>
+                <el-timeline>
+                  <el-timeline-item v-for="(article, index) in articles"
+                                    :timestamp="article.create_time"
+                                    placement="top"
+                                    :key="article.id">
+                    <el-card>
+                      <h4 class="article-title" @click="$router.push('/articleDetails/' + article.id)">{{article.title}}</h4>
+                      <p>
+                        <el-tag
+                          v-for="type in article.types"
+                          :key="type"
+                          effect="plain"
+                          style="margin-left: 10px">
+                          {{ type }}
+                        </el-tag>
+                      </p>
+                    </el-card>
+                  </el-timeline-item>
+                </el-timeline>
               </el-col>
             </el-row>
           </el-card>
@@ -31,31 +62,25 @@
       </el-row>
 
 
-      <!-- TODO 标题栏这个要做子路由 -->
-      <el-row>
-        <el-col :span="16" :offset="4">
-          <el-tabs v-model="activeName" @tab-click="handleClick">
-            <el-tab-pane label="文章" name="/userArticles"></el-tab-pane>
-            <el-tab-pane label="问题" name="/userQuestions"></el-tab-pane>
-            <el-tab-pane label="收藏" name="/userCollects"></el-tab-pane>
-          </el-tabs>
-        </el-col>
-      </el-row>
-      <router-view/>
+
+
+
     </div>
 </template>
 
 <script>
     import jwtDecode from "jwt-decode";
+    import Demo from "./user/Demo";
 
     export default {
         name: "UserDetails",
+      components: {Demo},
       data() {
           return {
-            activeName: 'first',
             userInfo: {
               header_pic: null
-            }
+            },
+            articles:[]
           }
       },
       methods: {
@@ -89,8 +114,15 @@
             }
           }).then(resp => {
             this.userInfo = resp.data.data;
-            console.log(resp.data.data)
           })
+        this.$http.get("http://localhost:9999/siji/article/findArticleByUserId/" + this.$route.params.id, {
+          headers: {
+            token: window.localStorage.getItem("userToken")
+          }
+        }).then(resp => {
+          console.log(resp.data.data)
+          this.articles = resp.data.data
+        })
       }
     }
 </script>
@@ -108,5 +140,8 @@
     background-color: #0066FF;
     color: white;
     font-family: PingFang;
+  }
+  .article-title{
+    cursor: pointer;
   }
 </style>

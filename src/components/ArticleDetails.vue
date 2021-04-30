@@ -49,9 +49,9 @@
               <h2>{{article.title}}</h2>
 
               <!-- 作者信息 -->
-              <el-avatar v-if="article.user.header_pic != null" :src="article.user.header_pic" size="large" class="header-pic"></el-avatar>
-              <el-avatar v-if="article.user.header_pic == null" class="header-pic">{{article.user.name}}</el-avatar>
-              <span class="name" style="margin-left: 20px">{{article.user.name}}</span>
+              <el-avatar v-if="article.user.header_pic != null" :src="article.user.header_pic" size="large" class="header-pic" @click="$router.push('/userDetails/' + article.user.id)"></el-avatar>
+              <el-avatar v-if="article.user.header_pic == null" class="header-pic" @click="$router.push('/userDetails/' + article.user.id)">{{article.user.name}}</el-avatar>
+              <span class="name" title="点击查看用户详情" style="margin-left: 20px;cursor: pointer" @click="$router.push('/userDetails/' + article.user.id)">{{article.user.name}}</span>
               <span style="float: right" v-if="currentUserId != article.user.id">
                 <el-button round
                             @click="toAttention"

@@ -5,7 +5,6 @@ import Index from "../components/Index";
 import PhoneLogin from "../components/login/PhoneLogin";
 import PasswordLogin from "../components/login/PasswordLogin";
 import ArticleList from "../components/ArticleList";
-import QuestionList from "../components/QuestionList";
 import AboutMe from "../components/AboutMe";
 import ArticleDetails from "../components/ArticleDetails";
 import ArticleSub from "../components/ArticleSub";
@@ -17,6 +16,7 @@ import UpdateBasic from "../components/setting/UpdateBasic";
 import UpdateAvatar from "../components/setting/UpdateAvatar";
 import UpdatePassword from "../components/setting/UpdatePassword";
 import ArticlesByType from "../components/ArticlesByType";
+import Download from "../components/Download";
 
 Vue.use(Router)
 
@@ -66,8 +66,8 @@ export default new Router({
           ]
         },
         {
-          path: '/questionList',
-          component: QuestionList,
+          path: '/download',
+          component: Download,
           meta: {
             requireAuth:true,
           },
