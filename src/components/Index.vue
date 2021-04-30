@@ -140,17 +140,17 @@
       }
     },
     mounted(){
-      if (window.performance.navigation.type != 1) {
-        const h = this.$createElement;
-
-        this.$notify({
-          title: '肆记',
-          dangerouslyUseHTMLString: true,
-          duration: 0, // 不会自动关闭
-          // TODO 开源地址标记
-          message: '<div><img src="https://cdn.jsdelivr.net/gh/zhangliyuangit/img/byau.jpg" alt="" height="80" width="80" style="margin-left: 60px"><b><div>本项目已经开源->  <a href="http://www.baidu.com">开源地址</a></div><div>如果本项目对您有帮助，请点击一个⭐</div></b></div>'
-        });
-      }
+      // if (window.performance.navigation.type != 1) {
+      //   const h = this.$createElement;
+      //
+      //   this.$notify({
+      //     title: '肆记',
+      //     dangerouslyUseHTMLString: true,
+      //     duration: 0, // 不会自动关闭
+      //     // TODO 开源地址标记
+      //     message: '<div><img src="https://cdn.jsdelivr.net/gh/zhangliyuangit/img/byau.jpg" alt="" height="80" width="80" style="margin-left: 60px"><b><div>本项目已经开源->  <a href="http://www.baidu.com">开源地址</a></div><div>如果本项目对您有帮助，请点击一个⭐</div></b></div>'
+      //   });
+      // }
     },
     created() {
       this.isLogin = window.localStorage.getItem("userToken") == null;

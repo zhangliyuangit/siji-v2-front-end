@@ -68,6 +68,18 @@
                 <span class="name">{{user.name}}</span>
               </div>
             </el-card>
+
+
+            <el-menu style="margin-top: 20px;margin-left: 10px;">
+              <el-menu-item index="about">
+                <i class="el-icon-copy-document"></i>
+                <a href="https://zhangliyuanblog.club/" target="_blank">关于作者</a>
+              </el-menu-item>
+              <el-menu-item index="address">
+                <i class="el-icon-link"></i>
+                <a href="https://gitee.com/zhangliyuanblog/siji-v2" target="_blank">开源地址</a>
+              </el-menu-item>
+            </el-menu>
           </el-col>
         </el-row>
       </el-col>
@@ -185,5 +197,10 @@
   .text:hover{
     background: #e6e8ee;
     cursor: pointer;
+  }
+  a{
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
   }
 </style>

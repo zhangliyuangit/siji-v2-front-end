@@ -47,6 +47,17 @@
             <div>
             </div>
           </el-card>
+
+          <el-menu style="margin-top: 20px;margin-left: 10px;">
+            <el-menu-item index="about">
+              <i class="el-icon-copy-document"></i>
+              <a href="https://zhangliyuanblog.club/" target="_blank">关于作者</a>
+            </el-menu-item>
+            <el-menu-item index="address">
+              <i class="el-icon-link"></i>
+              <a href="https://gitee.com/zhangliyuanblog/siji-v2" target="_blank">开源地址</a>
+            </el-menu-item>
+          </el-menu>
         </el-col>
       </el-row>
 
@@ -99,7 +110,7 @@
 
             <el-form-item>
               <el-button @click="submitUploadForm"
-                         :disabled="fileForm.name == ''"
+                         :disabled="fileForm.name === ''"
                          style="width: 100%">确定</el-button>
             </el-form-item>
           </el-form>
@@ -161,10 +172,14 @@
                   message: '恭喜你，上传成功',
                   type: 'success'
                 });
+                // 关闭弹窗
                 this.dialogVisible = false;
                 this.innerVisible = false;
+                this.filesByPage(this.page.current, 5)
               }else {
                 this.$message.error('上传失败');
+                this.dialogVisible = false;
+                this.innerVisible = false;
               }
             })
         },
@@ -257,6 +272,11 @@
     background-color: #5c99f5;
     color: white;
     font-family: pingfang-x;
+    font-weight: 600;
+  }
+  a{
+    text-decoration: none;
+    font-size: 15px;
     font-weight: 600;
   }
 
