@@ -19,7 +19,6 @@
 </template>
 
 <script>
-    import jwtDecode from "jwt-decode";
 
     export default {
         name: "Setting",

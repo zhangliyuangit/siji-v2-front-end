@@ -17,6 +17,12 @@ import UpdateAvatar from "../components/setting/UpdateAvatar";
 import UpdatePassword from "../components/setting/UpdatePassword";
 import ArticlesByType from "../components/ArticlesByType";
 import Download from "../components/Download";
+import MyHome from "../components/MyHome";
+import MyArticle from "../components/myHome/MyArticle";
+import MyCollect from "../components/myHome/MyCollect";
+import MyLike from "../components/myHome/MyLike";
+import FavoriteDetails from "../components/FavoriteDetails";
+import UpdateArticle from "../components/UpdateArticle";
 
 Vue.use(Router)
 
@@ -132,7 +138,47 @@ export default new Router({
           meta: {
             requireAuth: true
           }
-        }
+        },
+        {
+          path: '/myHome',
+          name: 'myHome',
+          component: MyHome,
+          redirect: '/myCollect',
+          meta: {
+            requireAuth: true
+          },
+          children: [
+            {
+              path: '/myArticle',
+              component: MyArticle,
+              meta: {
+                requireAuth: true
+              }
+            },
+            {
+              path: '/myCollect',
+              component: MyCollect,
+              meta: {
+                requireAuth: true
+              }
+            },
+            {
+              path: '/myLike',
+              component: MyLike,
+              meta: {
+                requireAuth: true
+              }
+            }
+          ]
+        },
+        {
+          path: '/favorite/:id',
+          component: FavoriteDetails,
+          meta: {
+            requireAuth: true
+          }
+        },
+
       ]
     },
     {
@@ -142,6 +188,13 @@ export default new Router({
       meta: {
         requireAuth:true,
       },
+    },
+    {
+      path: '/updateArticle/:id',
+      component: UpdateArticle,
+      meta: {
+        requireAuth: true
+      }
     }
   ]
 })

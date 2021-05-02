@@ -18,7 +18,6 @@
           <!-- 搜索框和提问按钮 -->
           <el-menu-item>
             <el-input style="margin-left: 30px" placeholder="请输入你要搜索的内容" id="search"><i slot="suffix" class="icon iconfont icon-sousuo2x" @click="doSearch" id="searchIcon"></i></el-input>
-<!--            <el-button type="primary" round id="searchBtn" plain @click="dialogVisible = true">提问</el-button>-->
           </el-menu-item>
 
 
@@ -57,20 +56,6 @@
     </el-container>
 
 
-    <!-- 问题弹框 -->
-<!--    <el-dialog-->
-<!--      title="请写下你的问题，五湖四海的朋友来帮你解答"-->
-<!--      :visible.sync="dialogVisible"-->
-<!--      width="30%"-->
-<!--    >-->
-<!--      <el-input placeholder="请写下你的问题" type="textarea" maxlength="300"-->
-<!--                show-word-limit-->
-<!--                v-model="question"-->
-<!--      ></el-input>-->
-<!--      <span slot="footer" class="dialog-footer">-->
-<!--    <el-button type="primary" @click="addQuestion" :disabled="question === ''">发布问题</el-button>-->
-<!--  </span>-->
-<!--    </el-dialog>-->
   </div>
 </template>
 
@@ -122,6 +107,11 @@
             name: "setting",
           });
           window.open(href, '_blank');
+        } else if (command === 'myHome') {
+          const { href } = this.$router.resolve({
+            name: "myHome",
+          });
+          window.open(href, '_blank');
         }
       },
       // 登出
@@ -140,17 +130,6 @@
       }
     },
     mounted(){
-      // if (window.performance.navigation.type != 1) {
-      //   const h = this.$createElement;
-      //
-      //   this.$notify({
-      //     title: '肆记',
-      //     dangerouslyUseHTMLString: true,
-      //     duration: 0, // 不会自动关闭
-      //     // TODO 开源地址标记
-      //     message: '<div><img src="https://cdn.jsdelivr.net/gh/zhangliyuangit/img/byau.jpg" alt="" height="80" width="80" style="margin-left: 60px"><b><div>本项目已经开源->  <a href="http://www.baidu.com">开源地址</a></div><div>如果本项目对您有帮助，请点击一个⭐</div></b></div>'
-      //   });
-      // }
     },
     created() {
       this.isLogin = window.localStorage.getItem("userToken") == null;
@@ -181,12 +160,6 @@
   #no-login-item{
     margin-left: 300px;
   }
-
-
-
-
-
-
 
   /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
   ::-webkit-scrollbar

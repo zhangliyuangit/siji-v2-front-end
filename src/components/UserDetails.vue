@@ -70,11 +70,9 @@
 
 <script>
     import jwtDecode from "jwt-decode";
-    import Demo from "./user/Demo";
 
     export default {
         name: "UserDetails",
-      components: {Demo},
       data() {
           return {
             userInfo: {
